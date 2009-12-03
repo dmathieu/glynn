@@ -1,0 +1,5 @@
+_site/*
+pkg/*
+*.kpf
+*.tmproj
+.DS_Store
