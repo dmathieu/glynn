@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'spec/rake/spectask'
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
@@ -9,9 +12,20 @@ begin
     gemspec.authors = ["Damien MATHIEU"]
     gemspec.version = '0.0.1'
     
-    gem.add_dependency('jekyll', '>= 0.5.4')
+    gemspec.add_dependency('jekyll', '>= 0.5.4')
   end
 rescue LoadError
   puts "Jeweler not available. Install it with:"
   puts "gem install jeweler"
+end
+
+#
+# The rspec tasks
+#
+task :default => :spec
+ 
+desc "Run all specs"
+Spec::Rake::SpecTask.new('spec') do |t|
+  t.spec_files = FileList['spec/**/*.rb']
+  t.spec_opts = ['-cfs']
 end
