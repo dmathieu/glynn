@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'jekyll'
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+
+
+options = {}
+case ARGV.size
+  when 0
+  when 1
+    options['destination'] = ARGV[0]
+  when 2
+    options['source'] = ARGV[0]
+    options['destination'] = ARGV[1]
+end
+options = Jekyll.configuration(options)
+
+
+puts "Building site: #{options['source']} -> #{options['destination']}"
+jekyll = Glynn::Jekyll.new
+jekyll.build
+puts "Successfully generated site"
