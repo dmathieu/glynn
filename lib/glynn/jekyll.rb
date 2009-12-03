@@ -4,8 +4,8 @@ module Glynn
   class Jekyll
     attr_reader :site
     
-    def initialize
-      @site = ::Jekyll::Site.new(::Jekyll.configuration({}))
+    def initialize(options = {})
+      @site = ::Jekyll::Site.new(::Jekyll.configuration(options))
     end
     
     #
