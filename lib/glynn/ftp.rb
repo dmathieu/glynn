@@ -26,6 +26,9 @@ module Glynn
     def send_dir(ftp, local, distant)
       begin
         ftp.mkdir(distant)
+      rescue Net::FTPPermError
+        # We don't do anything. The directory already exists.
+        # TODO : this is also risen if we don't have write access. Then, we need to raise.
       end
       Dir.foreach(local) do |file_name|
         # If the file/directory is hidden (first character is a dot), we ignore it
@@ -35,6 +38,9 @@ module Glynn
           # It is a directory, we recursively send it
           begin
             ftp.mkdir(distant + "/" + file_name)
+          rescue Net::FTPPermError
+            # We don't do anything. The directory already exists.
+            # TODO : this is also risen if we don't have write access. Then, we need to raise.
           end
           send_dir(ftp, local + "/" + file_name, distant + "/" + file_name)
         else
