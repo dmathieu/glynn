@@ -24,14 +24,18 @@ module Glynn
     end
     
     def send_dir(ftp, local, distant)
-      ftp.mkdir(distant)
+      begin
+        ftp.mkdir(distant)
+      end
       Dir.foreach(local) do |file_name|
         # If the file/directory is hidden (first character is a dot), we ignore it
         next if file_name =~ /^\./
         
         if File.stat(local + "/" + file_name).directory?
           # It is a directory, we recursively send it
-          ftp.mkdir(distant + "/" + file_name)
+          begin
+            ftp.mkdir(distant + "/" + file_name)
+          end
           send_dir(ftp, local + "/" + file_name, distant + "/" + file_name)
         else
            # It's a file, we just send it
