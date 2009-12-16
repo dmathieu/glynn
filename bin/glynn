@@ -22,7 +22,7 @@ jekyll = Glynn::Jekyll.new
 jekyll.build
 puts "Successfully generated site"
 
-puts "Sending site over FTP"
+puts "Sending site over FTP (host: #{options['ftp_host']})"
 begin
   puts "FTP Username: "
   username = $stdin.gets.chomp
