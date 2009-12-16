@@ -29,3 +29,12 @@ Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_files = FileList['spec/**/*.rb']
   t.spec_opts = ['-cfs']
 end
+
+#
+# The sdoc generator
+#
+begin
+  require 'sdoc_helpers'
+rescue LoadError
+  puts "sdoc support not enabled. Please gem install sdoc-helpers."
+end
