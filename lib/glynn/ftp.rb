@@ -5,7 +5,9 @@ module Glynn
     attr_reader :host, :port, :username, :password
     
     def initialize(host, port = 21, options = Hash.new)
+      options = {:username => nil, :password => nil}.merge(options)
       @host, @port = host, port
+      @username, @password = options[:username], options[:password]
     end
     
     def sync(local, distant)
@@ -16,7 +18,7 @@ module Glynn
     
     private
     def connect
-      ftp = Net::FTP.new(host)
+      ftp = Net::FTP.new(host, username, password)
       ftp.login
       yield ftp
       ftp.close

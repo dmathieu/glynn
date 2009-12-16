@@ -12,8 +12,15 @@ describe "FTP Interface" do
   end
   
   it 'should login to ftp server' do
-    Net::FTP.should_receive(:new).with('localhost').and_return(@mock)
+    Net::FTP.should_receive(:new).with('localhost', nil, nil).and_return(@mock)
     Glynn::Ftp.new('localhost').send(:connect) do |ftp|
+      ftp.should eql(@mock)
+    end
+  end
+  
+  it 'should accept a username and password' do
+    Net::FTP.should_receive(:new).with('localhost', 'username', 'password').and_return(@mock)
+    Glynn::Ftp.new('localhost', 21, {:username => 'username', :password => 'password'}).send(:connect) do |ftp|
       ftp.should eql(@mock)
     end
   end
