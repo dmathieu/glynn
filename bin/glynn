@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'jekyll'
-require 'optparse'
+require 'password'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 
@@ -21,3 +21,18 @@ puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
 puts "Successfully generated site"
+
+puts "Sending site over FTP"
+begin
+  puts "FTP Username: "
+  username = $stdin.gets.chomp
+  
+  puts "FTP Password: "
+  username = Password.get("FTP Password: ").chomp
+rescue NoMethodError, Interrupt
+  exit
+end
+
+ftp = Glynn::Ftp.new(options['ftp_host'], 21, {:username => username, :password => password})
+ftp.sync(options['destination'], options['ftp_dir'])
+puts "Successfully sent site"
