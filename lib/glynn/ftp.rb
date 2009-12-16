@@ -19,7 +19,6 @@ module Glynn
     private
     def connect
       ftp = Net::FTP.new(host, username, password)
-      ftp.login
       yield ftp
       ftp.close
     end
