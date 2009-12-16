@@ -22,6 +22,11 @@ For example, this is my _config.yml file :
     ftp_dir: /web/portfolio
 
 Glynn will connect itself to the host "dmathieu.com" and send every file to the FTP directory /web/portfolio.
+To do yo, you just need to be at the top of your jekyll project. And in a console, enter the following :
+
+    glynn
+
+Quite simple again. It'll connect to the remote host, ask you for login and password and send the files :)
 
 Contributing
 ------------
