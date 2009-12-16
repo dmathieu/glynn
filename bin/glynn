@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'jekyll'
-require 'password'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 
@@ -28,7 +27,7 @@ begin
   username = $stdin.gets.chomp
   
   puts "FTP Password: "
-  username = Password.get("FTP Password: ").chomp
+  password = $stdin.gets.chomp
 rescue NoMethodError, Interrupt
   exit
 end
