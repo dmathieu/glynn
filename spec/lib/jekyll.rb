@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "Relation between glynn and jekyll" do
   before(:all) do
     FakeFS.activate!
+    File.open('/_config.yml', 'w') { |f| f.write 'auto: true' }
   end
   after(:all) do
     FakeFS.deactivate!
