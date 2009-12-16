@@ -28,8 +28,15 @@ begin
   username = $stdin.gets.chomp
   
   puts "FTP Password: "
+  
+  # We hide the entered characters before to ask for the password
+  system "stty -echo"
   password = $stdin.gets.chomp
+  system "stty echo"
 rescue NoMethodError, Interrupt
+  # When the process is exited, we display the characters again
+  # And we exit
+  system "stty echo"
   exit
 end
 
