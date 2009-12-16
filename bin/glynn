@@ -40,5 +40,6 @@ rescue NoMethodError, Interrupt
 end
 
 ftp = Glynn::Ftp.new(options['ftp_host'], 21, {:username => username, :password => password})
+puts "Connected to server. Sending site"
 ftp.sync(options['destination'], options['ftp_dir'])
 puts "Successfully sent site"
