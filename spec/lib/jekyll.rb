@@ -13,4 +13,10 @@ describe "Relation between glynn and jekyll" do
     jekyll = Glynn::Jekyll.new({ 'source' => '/' })
     jekyll.build
   end
+  
+  it 'should accept the ftp host option' do
+    File.open('/_config.yml', 'w') { |f| f.write 'ftp_host: example.com' }
+    options = Jekyll.configuration({'source' => '/'})
+    options['ftp_host'].should eql('example.com')
+  end
 end
