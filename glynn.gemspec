@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "README.md",
      "Rakefile",
      "bin/glynn",
+     "glynn.gemspec",
      "lib/glynn.rb",
      "lib/glynn/ftp.rb",
      "lib/glynn/jekyll.rb",

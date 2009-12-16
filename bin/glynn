@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'jekyll'
+require 'glynn'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 
