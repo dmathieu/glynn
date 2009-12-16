@@ -24,11 +24,10 @@ puts "Successfully generated site"
 
 puts "Sending site over FTP (host: #{options['ftp_host']})"
 begin
-  puts "FTP Username: "
+  print "FTP Username: "
   username = $stdin.gets.chomp
   
-  puts "FTP Password: "
-  
+  print "FTP Password: "
   # We hide the entered characters before to ask for the password
   system "stty -echo"
   password = $stdin.gets.chomp
