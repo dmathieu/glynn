@@ -45,7 +45,11 @@ module Glynn
           send_dir(ftp, local + "/" + file_name, distant + "/" + file_name)
         else
            # It's a file, we just send it
-           ftp.puttextfile(local + "/" + file_name, distant + "/" + file_name)
+           if Glynn::File.is_bin?(local + "/" + file_name)
+             ftp.putbinaryfile(local + "/" + file_name, distant + "/" + file_name)
+           else
+             ftp.puttextfile(local + "/" + file_name, distant + "/" + file_name)
+           end
         end
       end
       
