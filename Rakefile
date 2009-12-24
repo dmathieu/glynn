@@ -1,4 +1,4 @@
-require 'rubygems'
+require 'vendor/gems/environment'
 require 'spec/rake/spectask'
 
 begin
