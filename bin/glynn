@@ -24,14 +24,22 @@ puts "Successfully generated site"
 
 puts "Sending site over FTP (host: #{options['ftp_host']})"
 begin
-  print "FTP Username: "
-  username = $stdin.gets.chomp
+  if options['ftp_username'].nil?
+    print "FTP Username: "
+    username = $stdin.gets.chomp
+  else
+    username = options['username']
+  end
   
-  print "FTP Password: "
-  # We hide the entered characters before to ask for the password
-  system "stty -echo"
-  password = $stdin.gets.chomp
-  system "stty echo"
+  if options['password'].nil?
+    print "FTP Password: "
+    # We hide the entered characters before to ask for the password
+    system "stty -echo"
+    password = $stdin.gets.chomp
+    system "stty echo"
+  else
+    password = options['password']
+  end
 rescue NoMethodError, Interrupt
   # When the process is exited, we display the characters again
   # And we exit
