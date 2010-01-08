@@ -10,7 +10,7 @@ begin
     gemspec.email = "42@dmathieu.com"
     gemspec.homepage = "http://github.com/dmathieu/glynn"
     gemspec.authors = ["Damien MATHIEU"]
-    gemspec.version = '1.0.0'
+    gemspec.version = '1.0.1'
     
     gemspec.add_dependency('jekyll', '>= 0.5.4')
   end
