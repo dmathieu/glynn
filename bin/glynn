@@ -13,6 +13,11 @@ case ARGV.size
   when 2
     options['source'] = ARGV[0]
     options['destination'] = ARGV[1]
+  when 4
+    options['source'] = ARGV[0]
+    options['destination'] = ARGV[1]
+    options['ftp_username'] = ARGV[2]
+    options['ftp_password'] = ARGV[3]
 end
 options = Jekyll.configuration(options)
 
