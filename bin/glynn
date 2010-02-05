@@ -28,17 +28,17 @@ begin
     print "FTP Username: "
     username = $stdin.gets.chomp
   else
-    username = options['username']
+    username = options['ftp_username']
   end
   
-  if options['password'].nil?
+  if options['ftp_password'].nil?
     print "FTP Password: "
     # We hide the entered characters before to ask for the password
     system "stty -echo"
     password = $stdin.gets.chomp
     system "stty echo"
   else
-    password = options['password']
+    password = options['ftp_password']
   end
 rescue NoMethodError, Interrupt
   # When the process is exited, we display the characters again
