@@ -1,4 +1,10 @@
-require 'vendor/gems/environment'
+begin
+	require File.expand_path('../vendor/environment', __FILE__)
+rescue LoadError
+	require "rubygems"
+	require "bundler"
+	Bundler.setup
+end
 require 'spec/rake/spectask'
 
 begin
