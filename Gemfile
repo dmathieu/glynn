@@ -2,7 +2,9 @@ source "http://gemcutter.org"
 #
 # Required on every environment
 #
+gem "rdiscount"
 gem "jekyll"
+gem "jeweler"
 gem "sdoc"
 gem "sdoc-helpers"
 
