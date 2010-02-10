@@ -1,11 +1,7 @@
 #!/usr/bin/env ruby
-begin
-	require File.expand_path('../vendor/environment', __FILE__)
-rescue LoadError
-	require "rubygems"
-	require "bundler"
-	Bundler.setup
-end
+require 'rubygems'
+require 'jekyll'
+require 'glynn'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 
