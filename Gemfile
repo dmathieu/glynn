@@ -11,6 +11,8 @@ gem "sdoc-helpers"
 #
 # Required only for tests
 #
-gem "rspec", :only => :testing
-gem "mocha", :only => :testing
-gem "fakefs", :only => :testing
+group :test do
+	gem "rspec"
+	gem "mocha"
+	gem "fakefs"
+end
