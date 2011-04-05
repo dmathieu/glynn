@@ -1,8 +1,5 @@
 require 'rubygems'
-require 'spec'
 require 'mocha'
-require 'spec/autorun'
-require 'spec/interop/test'
 require 'fakefs/safe'
 
 
