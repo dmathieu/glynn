@@ -1,5 +1,3 @@
-require 'ftools'
-
 module Glynn
   class File
     
