@@ -6,7 +6,7 @@ require 'fakefs/safe'
 $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'glynn'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   
   
 end
