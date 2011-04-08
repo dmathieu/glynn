@@ -14,5 +14,6 @@ gem "sdoc-helpers"
 group :test do
 	gem "rspec"
 	gem "mocha"
-	gem "fakefs"
+	gem "fakefs",
+	  :git => 'https://github.com/dmathieu/fakefs.git'
 end

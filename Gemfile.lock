@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/dmathieu/fakefs.git
+  revision: 09f238b23772d95e8790235b7d3eee99e431deac
+  specs:
+    fakefs (0.3.1)
+
 GEM
   remote: http://gemcutter.org/
   specs:
@@ -5,7 +11,6 @@ GEM
       fast-stemmer (>= 1.0.0)
     diff-lcs (1.1.2)
     directory_watcher (1.4.0)
-    fakefs (0.3.1)
     fast-stemmer (1.0.0)
     git (1.2.5)
     jekyll (0.10.0)
@@ -44,7 +49,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  fakefs
+  fakefs!
   jekyll
   jeweler
   mocha
