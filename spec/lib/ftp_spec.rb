@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "FTP Interface" do
   before(:each) do
     # We mock the FTP server
-    @mock = mock('Ftp server', :null_object => true)
+    @mock = double('Ftp server').as_null_object
     
     # And the puttextfile method
     class Net::FTP
@@ -17,6 +17,15 @@ describe "FTP Interface" do
     
     
     Glynn::Ftp.new('localhost').send(:connect) do |ftp|
+      ftp.should eql(@mock)
+    end
+  end
+  
+  it 'should use the given port' do
+    @mock.should_receive(:connect).with('localhost', 1234)
+    Net::FTP.should_receive(:new).with('localhost', nil, nil).and_return(@mock)
+    
+    Glynn::Ftp.new('localhost', 1234).send(:connect) do |ftp|
       ftp.should eql(@mock)
     end
   end
