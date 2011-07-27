@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "FTP Interface" do
   before(:each) do
     # We mock the FTP server
-    @mock = mock('Ftp server', :null_object => true)
+    @mock = mock('Ftp server').as_null_object
 
     # And the puttextfile method
     class Net::FTP
