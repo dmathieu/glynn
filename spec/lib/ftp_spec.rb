@@ -20,7 +20,16 @@ describe "FTP Interface" do
       ftp.should eql(@mock)
     end
   end
-
+  
+  it 'should use the given port' do
+    @mock.should_receive(:connect).with('localhost', 1234)
+    Net::FTP.should_receive(:new).with('localhost', nil, nil).and_return(@mock)
+    
+    Glynn::Ftp.new('localhost', 1234).send(:connect) do |ftp|
+      ftp.should eql(@mock)
+    end
+  end
+  
   it 'should accept a username and password' do
     @mock.should_receive(:close)
     Net::FTP.should_receive(:new).with('localhost', 'username', 'password').and_return(@mock)
