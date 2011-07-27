@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{glynn}
-  s.version = "1.0.5"
+  s.version = "1.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien MATHIEU"]
-  s.date = %q{2011-04-08}
+  s.date = %q{2011-07-27}
   s.default_executable = %q{glynn}
   s.description = %q{Deploy a jekyll weblog through ftp}
   s.email = %q{42@dmathieu.com}
@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/dmathieu/glynn}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.1}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{Deploy a jekyll weblog through ftp}
   s.test_files = [
     "spec/lib/file_spec.rb",
