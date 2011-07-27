@@ -1,7 +1,8 @@
 Glynn
 =====
 
-Glynn offers you a bin to easily send a jekyll powered blog to your host through FTP.
+Glynn offers you a bin to easily send a jekyll powered blog to your host through FTP.  
+[![Travis](http://travis-ci.org/dmathieu/glynn.png)](http://travis-ci.org/dmathieu/glynn)
 
 Installation
 ------------
