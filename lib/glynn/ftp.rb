@@ -18,7 +18,7 @@ module Glynn
 
     private
     def connect
-      ftp = Net::FTP.new(host, username, password)
+      ftp = Net::FTP.new(host_with_port, username, password)
       yield ftp
       ftp.close
     end
@@ -52,7 +52,11 @@ module Glynn
            end
         end
       end
+    end
 
+    private
+    def host_with_port
+      "#{host}:#{port}"
     end
   end
 end

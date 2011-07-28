@@ -20,14 +20,14 @@ case ARGV.size
     options['ftp_password'] = ARGV[3]
 end
 options = Jekyll.configuration(options)
-
+ftp_port = options['ftp_port'].to_i || 21
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
 puts "Successfully generated site"
 
-puts "Sending site over FTP (host: #{options['ftp_host']})"
+puts "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port})"
 begin
   if options['ftp_username'].nil?
     print "FTP Username: "
@@ -35,7 +35,7 @@ begin
   else
     username = options['ftp_username']
   end
-  
+
   if options['ftp_password'].nil?
     print "FTP Password: "
     # We hide the entered characters before to ask for the password
@@ -52,7 +52,7 @@ rescue NoMethodError, Interrupt
   exit
 end
 
-ftp = Glynn::Ftp.new(options['ftp_host'], options['ftp_port'] || 21, {:username => username, :password => password})
+ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password})
 puts "\r\nConnected to server. Sending site"
 ftp.sync(options['destination'], options['ftp_dir'])
 puts "Successfully sent site"

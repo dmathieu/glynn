@@ -13,7 +13,7 @@ describe "FTP Interface" do
 
   it 'should login to ftp server' do
     @mock.should_receive(:close)
-    Net::FTP.should_receive(:new).with('localhost', nil, nil).and_return(@mock)
+    Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
 
 
     Glynn::Ftp.new('localhost').send(:connect) do |ftp|
@@ -21,9 +21,18 @@ describe "FTP Interface" do
     end
   end
 
+  it 'should use the given port' do
+    @mock.should_receive(:close)
+    Net::FTP.should_receive(:new).with('localhost:1234', nil, nil).and_return(@mock)
+
+    Glynn::Ftp.new('localhost', 1234).send(:connect) do |ftp|
+      ftp.should eql(@mock)
+    end
+  end
+
   it 'should accept a username and password' do
     @mock.should_receive(:close)
-    Net::FTP.should_receive(:new).with('localhost', 'username', 'password').and_return(@mock)
+    Net::FTP.should_receive(:new).with('localhost:21', 'username', 'password').and_return(@mock)
 
     Glynn::Ftp.new('localhost', 21, {:username => 'username', :password => 'password'}).send(:connect) do |ftp|
       ftp.should eql(@mock)
@@ -54,7 +63,7 @@ describe "FTP Interface" do
 
     FakeFS do
       interface = Glynn::Ftp.new('localhost')
-      Net::FTP.should_receive(:new).with('localhost', nil, nil).and_return(@mock)
+      Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
       interface.should_receive(:send_dir).with(@mock, '/test', '/blah')
 
       interface.sync '/test', '/blah'
