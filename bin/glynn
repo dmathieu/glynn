@@ -20,7 +20,7 @@ case ARGV.size
     options['ftp_password'] = ARGV[3]
 end
 options = Jekyll.configuration(options)
-ftp_port = options['ftp_port'].to_i || 21
+ftp_port = (options['ftp_port'] || 21).to_i
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
