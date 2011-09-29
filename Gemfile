@@ -12,8 +12,8 @@ gem "sdoc-helpers"
 # Required only for tests
 #
 group :test do
-	gem "rspec"
-	gem "mocha"
-	gem "fakefs",
-	  :git => 'https://github.com/dmathieu/fakefs.git'
+  gem "rspec"
+  gem "mocha"
+  gem "fakefs",
+    :git => 'https://github.com/dmathieu/fakefs.git'
 end

@@ -4,15 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{glynn}
-  s.version = "1.0.7"
+  s.name = "glynn"
+  s.version = "1.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien MATHIEU"]
-  s.date = %q{2011-09-16}
-  s.default_executable = %q{glynn}
-  s.description = %q{Deploy a jekyll weblog through ftp}
-  s.email = %q{42@dmathieu.com}
+  s.date = "2011-09-29"
+  s.description = "Deploy a jekyll weblog through ftp"
+  s.email = "42@dmathieu.com"
   s.executables = ["glynn"]
   s.extra_rdoc_files = [
     "LICENSE",
@@ -38,10 +37,10 @@ Gem::Specification.new do |s|
     "spec/spec.opts",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/dmathieu/glynn}
+  s.homepage = "http://github.com/dmathieu/glynn"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Deploy a jekyll weblog through ftp}
+  s.rubygems_version = "1.8.10"
+  s.summary = "Deploy a jekyll weblog through ftp"
   s.test_files = [
     "spec/lib/file_spec.rb",
     "spec/lib/ftp_spec.rb",

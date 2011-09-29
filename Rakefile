@@ -9,7 +9,7 @@ begin
     gemspec.email = "42@dmathieu.com"
     gemspec.homepage = "http://github.com/dmathieu/glynn"
     gemspec.authors = ["Damien MATHIEU"]
-    
+
     gemspec.add_dependency('jekyll', '>= 0.5.4')
   end
 rescue LoadError
