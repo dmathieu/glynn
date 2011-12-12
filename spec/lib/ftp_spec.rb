@@ -37,9 +37,10 @@ describe "FTP Interface" do
   end
 
   it 'should accept a username and password' do
-    Net::FTP.should_receive(:new).with('localhost:21', 'username', 'password').and_return(@mock)
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
     Glynn::Ftp.new('localhost', 21, {:username => 'username', :password => 'password'}).send(:connect) do |ftp|
+      @mock.should_receive(:login).with('username', 'password')
       ftp.should eql(@mock)
     end
   end
