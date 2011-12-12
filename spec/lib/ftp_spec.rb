@@ -11,12 +11,19 @@ describe "FTP Interface" do
     end
   end
 
-  it 'should login to ftp server' do
-    Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
-
+  it 'should connect to ftp server' do
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
     Glynn::Ftp.new('localhost').send(:connect) do |ftp|
       ftp.should eql(@mock)
+    end
+  end
+
+  it 'should login to ftp server' do
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
+
+    Glynn::Ftp.new('localhost').send(:connect) do |ftp|
+      @mock.should_receive(:login).with(nil, nil)
     end
   end
 
