@@ -12,7 +12,6 @@ describe "FTP Interface" do
   end
 
   it 'should login to ftp server' do
-    @mock.should_receive(:close)
     Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
 
 
@@ -22,7 +21,6 @@ describe "FTP Interface" do
   end
 
   it 'should use the given port' do
-    @mock.should_receive(:close)
     Net::FTP.should_receive(:new).with('localhost:1234', nil, nil).and_return(@mock)
 
     Glynn::Ftp.new('localhost', 1234).send(:connect) do |ftp|
@@ -31,7 +29,6 @@ describe "FTP Interface" do
   end
 
   it 'should accept a username and password' do
-    @mock.should_receive(:close)
     Net::FTP.should_receive(:new).with('localhost:21', 'username', 'password').and_return(@mock)
 
     Glynn::Ftp.new('localhost', 21, {:username => 'username', :password => 'password'}).send(:connect) do |ftp|
@@ -59,8 +56,6 @@ describe "FTP Interface" do
   end
 
   it 'should connect itself to the server and send the local file to distant directory' do
-    @mock.should_receive(:close)
-
     FakeFS do
       interface = Glynn::Ftp.new('localhost')
       Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
