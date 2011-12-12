@@ -28,9 +28,10 @@ describe "FTP Interface" do
   end
 
   it 'should use the given port' do
-    Net::FTP.should_receive(:new).with('localhost:1234', nil, nil).and_return(@mock)
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
     Glynn::Ftp.new('localhost', 1234).send(:connect) do |ftp|
+      @mock.should_receive(:connect).with('localhost', 1234)
       ftp.should eql(@mock)
     end
   end
