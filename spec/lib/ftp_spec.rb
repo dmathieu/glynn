@@ -66,9 +66,12 @@ describe "FTP Interface" do
 
   it 'should connect itself to the server and send the local file to distant directory' do
     FakeFS do
-      interface = Glynn::Ftp.new('localhost')
-      Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
-      interface.should_receive(:send_dir).with(@mock, '/test', '/blah')
+      Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
+      interface = Glynn::Ftp.new('localhost') do |ftp|
+        @mock.should_receive(:connect).with('localhost', 21)
+        @mock.should_receive(:login).with(nil, nil)
+        interface.should_receive(:send_dir).with(@mock, '/test', '/blah')
+      end
 
       interface.sync '/test', '/blah'
     end
