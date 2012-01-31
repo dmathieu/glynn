@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "glynn"
-  s.version = "1.0.8"
+  s.version = "1.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Damien MATHIEU"]
-  s.date = "2011-09-29"
+  s.date = "2012-01-31"
   s.description = "Deploy a jekyll weblog through ftp"
   s.email = "42@dmathieu.com"
   s.executables = ["glynn"]
