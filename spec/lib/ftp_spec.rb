@@ -11,30 +11,36 @@ describe "FTP Interface" do
     end
   end
 
-  it 'should login to ftp server' do
-    @mock.should_receive(:close)
-    Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
-
+  it 'should connect to ftp server' do
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
     Glynn::Ftp.new('localhost').send(:connect) do |ftp|
       ftp.should eql(@mock)
     end
   end
 
+  it 'should login to ftp server' do
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
+
+    Glynn::Ftp.new('localhost').send(:connect) do |ftp|
+      @mock.should_receive(:login).with(nil, nil)
+    end
+  end
+
   it 'should use the given port' do
-    @mock.should_receive(:close)
-    Net::FTP.should_receive(:new).with('localhost:1234', nil, nil).and_return(@mock)
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
     Glynn::Ftp.new('localhost', 1234).send(:connect) do |ftp|
+      @mock.should_receive(:connect).with('localhost', 1234)
       ftp.should eql(@mock)
     end
   end
 
   it 'should accept a username and password' do
-    @mock.should_receive(:close)
-    Net::FTP.should_receive(:new).with('localhost:21', 'username', 'password').and_return(@mock)
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
     Glynn::Ftp.new('localhost', 21, {:username => 'username', :password => 'password'}).send(:connect) do |ftp|
+      @mock.should_receive(:login).with('username', 'password')
       ftp.should eql(@mock)
     end
   end
@@ -59,12 +65,13 @@ describe "FTP Interface" do
   end
 
   it 'should connect itself to the server and send the local file to distant directory' do
-    @mock.should_receive(:close)
-
     FakeFS do
-      interface = Glynn::Ftp.new('localhost')
-      Net::FTP.should_receive(:new).with('localhost:21', nil, nil).and_return(@mock)
-      interface.should_receive(:send_dir).with(@mock, '/test', '/blah')
+      Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
+      interface = Glynn::Ftp.new('localhost') do |ftp|
+        @mock.should_receive(:connect).with('localhost', 21)
+        @mock.should_receive(:login).with(nil, nil)
+        interface.should_receive(:send_dir).with(@mock, '/test', '/blah')
+      end
 
       interface.sync '/test', '/blah'
     end
