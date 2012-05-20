@@ -1,33 +1,35 @@
-GIT
-  remote: https://github.com/dmathieu/fakefs.git
-  revision: 09f238b23772d95e8790235b7d3eee99e431deac
+PATH
+  remote: .
   specs:
-    fakefs (0.3.1)
+    glynn (1.0.10)
+      jekyll
 
 GEM
   remote: http://gemcutter.org/
   specs:
+    albino (1.3.3)
+      posix-spawn (>= 0.3.6)
     classifier (1.3.3)
       fast-stemmer (>= 1.0.0)
     diff-lcs (1.1.2)
-    directory_watcher (1.4.0)
-    fast-stemmer (1.0.0)
-    git (1.2.5)
-    jekyll (0.10.0)
-      classifier (>= 1.3.1)
-      directory_watcher (>= 1.1.1)
-      liquid (>= 1.9.0)
-      maruku (>= 0.5.9)
-    jeweler (1.5.2)
-      bundler (~> 1.0.0)
-      git (>= 1.2.5)
-      rake
+    directory_watcher (1.4.1)
+    fakefs (0.4.0)
+    fast-stemmer (1.0.1)
+    jekyll (0.11.2)
+      albino (~> 1.3)
+      classifier (~> 1.3)
+      directory_watcher (~> 1.1)
+      kramdown (~> 0.13)
+      liquid (~> 2.3)
+      maruku (~> 0.5)
     json (1.5.1)
-    liquid (2.2.2)
+    kramdown (0.13.6)
+    liquid (2.3.0)
     maruku (0.6.0)
       syntax (>= 1.0.0)
+    minitest (3.0.0)
     mocha (0.9.12)
-    rake (0.8.7)
+    posix-spawn (0.3.6)
     rdiscount (1.6.8)
     rdoc (2.4.3)
     rspec (2.5.0)
@@ -49,9 +51,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  fakefs!
-  jekyll
-  jeweler
+  bundler
+  fakefs
+  glynn!
+  minitest
   mocha
   rdiscount
   rspec

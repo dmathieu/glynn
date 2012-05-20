@@ -54,8 +54,7 @@ describe "FTP Interface" do
 
     FakeFS do
       # We create the fake files and directories
-      Dir.mkdir('/test') unless File.exists?('/test')
-      Dir.mkdir('/test/subdir') unless File.exists?('/test')
+      FileUtils.mkdir_p('/test/subdir') if !File.directory?('/test/subdir')
       File.open('/test/README', 'w') { |f| f.write 'N/A' }
       File.open('/test/subdir/README', 'w') { |f| f.write 'N/A' }
 
