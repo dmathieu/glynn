@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "File module" do
   before(:all)  do
     FakeFS.activate!
-    FileUtils.mkdir("/test")
+    FileUtils.mkdir("/test") if !File.directory?('/test')
   end
   after(:all) do
     FakeFS.deactivate!
