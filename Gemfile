@@ -7,6 +7,7 @@ gemspec
 gem "rdiscount"
 gem "sdoc"
 gem "sdoc-helpers"
+gem "rake"
 
 #
 # Required only for tests
