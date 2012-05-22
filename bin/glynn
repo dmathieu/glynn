@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require 'yaml'
 require 'jekyll'
 require 'glynn'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
@@ -26,6 +27,12 @@ puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
 puts "Successfully generated site"
+
+if File.exists?('.ftp_auth')
+    auth = YAML.load(File.read('.ftp_auth'))
+    options['ftp_username'] = auth[:user]
+    options['ftp_password'] = auth[:pass]
+end
 
 puts "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port})"
 begin
