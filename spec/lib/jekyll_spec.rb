@@ -29,9 +29,9 @@ describe "Relation between glynn and jekyll" do
     options['ftp_dir'].should eql('/home/glynn')
   end
 
-  it 'should accept the ftp_uploadhiddenfiles option' do
-    File.open('/_config.yml', 'w') { |f| f.write 'ftp_uploadhiddenfiles: [.htaccess]' }
+  it 'should accept the ftp_allowed_dotfiles option' do
+    File.open('/_config.yml', 'w') { |f| f.write 'ftp_allowed_dotfiles: [.htaccess]' }
     options = Jekyll.configuration({'source' => '/'})
-    options['ftp_uploadhiddenfiles'].should eql(['.htaccess'])
+    options['ftp_allowed_dotfiles'].should eql(['.htaccess'])
   end
 end
