@@ -29,6 +29,11 @@ To do yo, you just need to be at the top of your jekyll project. And in a consol
 
 Quite simple again. It'll connect to the remote host, ask you for login and password and send the files :)
 
+By default, glynn ignores hidden dotfiles like .gitignore but sometimes you want them uploaded too, e.g. .htaccess files
+Add the dotfiles you want included in your _config.yml file:
+
+    ftp_allowed_dotfiles: [.htaccess]
+
 Contributing
 ------------
 

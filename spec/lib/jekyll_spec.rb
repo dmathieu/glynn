@@ -23,9 +23,15 @@ describe "Relation between glynn and jekyll" do
     options['ftp_host'].should eql('example.com')
   end
 
-  it 'should accept the fto dir option' do
+  it 'should accept the ftp dir option' do
     File.open('/_config.yml', 'w') { |f| f.write 'ftp_dir: /home/glynn' }
     options = Jekyll.configuration({'source' => '/'})
     options['ftp_dir'].should eql('/home/glynn')
+  end
+
+  it 'should accept the ftp_allowed_dotfiles option' do
+    File.open('/_config.yml', 'w') { |f| f.write 'ftp_allowed_dotfiles: [.htaccess]' }
+    options = Jekyll.configuration({'source' => '/'})
+    options['ftp_allowed_dotfiles'].should eql(['.htaccess'])
   end
 end

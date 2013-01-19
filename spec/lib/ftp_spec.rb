@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "FTP Interface" do
   before(:each) do
     # We mock the FTP server
-    @mock = mock('Ftp server').as_null_object
+    @mock = double('Ftp server').as_null_object
 
     # And the puttextfile method
     class Net::FTP
@@ -59,7 +59,7 @@ describe "FTP Interface" do
       File.open('/test/subdir/README', 'w') { |f| f.write 'N/A' }
 
       # And send them
-      Glynn::Ftp.new('localhost').send(:send_dir, @mock, '/test', '/blah')
+      Glynn::Ftp.new('localhost').send(:send_dir, @mock, '/test', '/blah', [])
     end
   end
 
@@ -69,10 +69,34 @@ describe "FTP Interface" do
       interface = Glynn::Ftp.new('localhost') do |ftp|
         @mock.should_receive(:connect).with('localhost', 21)
         @mock.should_receive(:login).with(nil, nil)
-        interface.should_receive(:send_dir).with(@mock, '/test', '/blah')
+        interface.should_receive(:send_dir).with(@mock, '/test', '/blah', [])
       end
 
       interface.sync '/test', '/blah'
+    end
+  end
+
+  it 'should only send hidden dot files that are specified' do
+    # We expect NET/FTP to only recieve dot files that are specified
+    # A file not specified
+    @mock.should_not_receive(:putbinaryfile).with('/test/.gitignore', '/blah/.gitignore')
+    # A file that is specified
+    @mock.should_receive(:putbinaryfile).with('/test/.htaccess', '/blah/.htaccess').and_return(true)
+    # edge case - similar to allowed file, but with one S too many
+    @mock.should_not_receive(:putbinaryfile).with('/test/.htaccesss', '/blah/.htaccesss')
+    # normal files should be unaffected 
+    @mock.should_receive(:putbinaryfile).with('/test/README', '/blah/README').and_return(true)
+    @mock.should_receive(:mkdir).with('/blah')
+
+    FakeFS do
+      # We create the fake files and directories
+      File.open('/test/.gitignore', 'w') { |f| f.write 'N/A' }
+      File.open('/test/.htaccess', 'w') { |f| f.write 'N/A' }
+      File.open('/test/.htaccesss', 'w') { |f| f.write 'N/A' }
+      File.open('/test/README', 'w') { |f| f.write 'N/A' }
+
+      # And send them
+      Glynn::Ftp.new('localhost').send(:send_dir, @mock, '/test', '/blah', ['.htaccess'])
     end
   end
 end

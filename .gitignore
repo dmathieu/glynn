@@ -5,3 +5,4 @@ pkg/*
 .DS_Store
 vendor/gems/*
 bin/*
+Gemfile.lock
