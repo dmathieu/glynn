@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "FTP Interface" do
   before(:each) do
     # We mock the FTP server
-    @mock = mock('Ftp server').as_null_object
+    @mock = double('Ftp server').as_null_object
 
     # And the puttextfile method
     class Net::FTP
@@ -79,11 +79,11 @@ describe "FTP Interface" do
   it 'should only send hidden dot files that are specified' do
     # We expect NET/FTP to only recieve dot files that are specified
     # A file not specified
-    @mock.should_not_receive(:putbinaryfile).with('/test/.gitignore', '/blah/.gitignore').and_return(true)
+    @mock.should_not_receive(:putbinaryfile).with('/test/.gitignore', '/blah/.gitignore')
     # A file that is specified
     @mock.should_receive(:putbinaryfile).with('/test/.htaccess', '/blah/.htaccess').and_return(true)
     # edge case - similar to allowed file, but with one S too many
-    @mock.should_not_receive(:putbinaryfile).with('/test/.htaccesss', '/blah/.htaccesss').and_return(true)
+    @mock.should_not_receive(:putbinaryfile).with('/test/.htaccesss', '/blah/.htaccesss')
     # normal files should be unaffected 
     @mock.should_receive(:putbinaryfile).with('/test/README', '/blah/README').and_return(true)
     @mock.should_receive(:mkdir).with('/blah')
