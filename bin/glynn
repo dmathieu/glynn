@@ -21,6 +21,7 @@ case ARGV.size
 end
 options = Jekyll.configuration(options)
 ftp_port = (options['ftp_port'] || 21).to_i
+allowed_dotfiles = options['ftp_allowed_dotfiles'] || []
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
@@ -54,5 +55,5 @@ end
 
 ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password})
 puts "\r\nConnected to server. Sending site"
-ftp.sync(options['destination'], options['ftp_dir'], options['ftp_allowed_dotfiles'])
+ftp.sync(options['destination'], options['ftp_dir'], allowed_dotfiles)
 puts "Successfully sent site"
