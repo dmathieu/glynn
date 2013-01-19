@@ -54,5 +54,5 @@ end
 
 ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password})
 puts "\r\nConnected to server. Sending site"
-ftp.sync(options['destination'], options['ftp_dir'])
+ftp.sync(options['destination'], options['ftp_dir'], options['ftp_allowed_dotfiles'])
 puts "Successfully sent site"

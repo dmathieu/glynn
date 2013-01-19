@@ -5,14 +5,14 @@ module Glynn
     attr_reader :host, :port, :username, :password
 
     def initialize(host, port = 21, options = Hash.new)
-      options = {:username => nil, :password => nil}.merge(options)
+      options = {:username => nil, :password => nil, :dot_files => nil}.merge(options)
       @host, @port = host, port
       @username, @password = options[:username], options[:password]
     end
 
-    def sync(local, distant)
+    def sync(local, distant, allowed_dotfiles = [])
       connect do |ftp|
-        send_dir(ftp, local, distant)
+        send_dir(ftp, local, distant, allowed_dotfiles)
       end
     end
 
@@ -26,7 +26,7 @@ module Glynn
       end
     end
 
-    def send_dir(ftp, local, distant)
+    def send_dir(ftp, local, distant, allowed_dotfiles)
       begin
         ftp.mkdir(distant)
       rescue Net::FTPPermError
@@ -34,8 +34,8 @@ module Glynn
         # TODO : this is also risen if we don't have write access. Then, we need to raise.
       end
       Dir.foreach(local) do |file_name|
-        # If the file/directory is hidden (first character is a dot), we ignore it
-        next if file_name =~ /^\./
+        # If the file/directory is hidden (first character is a dot), we ignore it unless explicity told not to
+        next if file_name =~ /^\./ and not allowed_dotfiles.include? file_name
 
         if ::File.stat(local + "/" + file_name).directory?
           # It is a directory, we recursively send it
@@ -45,7 +45,7 @@ module Glynn
             # We don't do anything. The directory already exists.
             # TODO : this is also risen if we don't have write access. Then, we need to raise.
           end
-          send_dir(ftp, local + "/" + file_name, distant + "/" + file_name)
+          send_dir(ftp, local + "/" + file_name, distant + "/" + file_name, allowed_dotfiles)
         else
            # It's a file, we just send it
            if Glynn::File.is_bin?(local + "/" + file_name)
