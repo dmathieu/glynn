@@ -5,7 +5,7 @@ module Glynn
     attr_reader :host, :port, :username, :password
 
     def initialize(host, port = 21, options = Hash.new)
-      options = {:username => nil, :password => nil, :dot_files => nil}.merge(options)
+      options = {:username => nil, :password => nil}.merge(options)
       @host, @port = host, port
       @username, @password = options[:username], options[:password]
     end
