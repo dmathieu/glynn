@@ -21,7 +21,7 @@ case ARGV.size
 end
 options = Jekyll.configuration(options)
 ftp_port = (options['ftp_port'] || 21).to_i
-ftp_disable_passive = options['ftp_disable_passive'] || true
+ftp_disable_passive = options['ftp_disable_passive'] || false
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
