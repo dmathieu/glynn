@@ -35,7 +35,7 @@ module Glynn
       end
       Dir.foreach(local) do |file_name|
         # If the file/directory is hidden (first character is a dot), we ignore it
-        next if file_name =~ /^\./
+        next if file_name =~ /^(\.|\.\.)$/
 
         if ::File.stat(local + "/" + file_name).directory?
           # It is a directory, we recursively send it

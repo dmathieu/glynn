@@ -48,6 +48,7 @@ describe "FTP Interface" do
   it 'should recursively send a directory' do
     # We expect NET/FTP to create every file
     @mock.should_receive(:putbinaryfile).with('/test/README', '/blah/README').and_return(true)
+    @mock.should_receive(:putbinaryfile).with('/test/.gitignore', '/blah/.gitignore').and_return(true)
     @mock.should_receive(:putbinaryfile).with('/test/subdir/README', '/blah/subdir/README').and_return(true)
     @mock.should_receive(:mkdir).with('/blah')
     @mock.should_receive(:mkdir).with('/blah/subdir').twice
@@ -56,6 +57,7 @@ describe "FTP Interface" do
       # We create the fake files and directories
       FileUtils.mkdir_p('/test/subdir') if !File.directory?('/test/subdir')
       File.open('/test/README', 'w') { |f| f.write 'N/A' }
+      File.open('/test/.gitignore', 'w') { |f| f.write 'N/A' }
       File.open('/test/subdir/README', 'w') { |f| f.write 'N/A' }
 
       # And send them
