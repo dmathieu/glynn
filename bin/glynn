@@ -19,8 +19,9 @@ case ARGV.size
     options['ftp_username'] = ARGV[2]
     options['ftp_password'] = ARGV[3]
 end
-options = Jekyll.configuration(options)
+options  = Jekyll.configuration(options)
 ftp_port = (options['ftp_port'] || 21).to_i
+passive  = options['ftp_passive'] || true
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
@@ -52,7 +53,7 @@ rescue NoMethodError, Interrupt
   exit
 end
 
-ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password})
+ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password, :passive => passive})
 puts "\r\nConnected to server. Sending site"
 ftp.sync(options['destination'], options['ftp_dir'])
 puts "Successfully sent site"

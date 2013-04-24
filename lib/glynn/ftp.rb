@@ -2,12 +2,13 @@ require 'net/ftp'
 
 module Glynn
   class Ftp
-    attr_reader :host, :port, :username, :password
+    attr_reader :host, :port, :username, :password, :passive
 
     def initialize(host, port = 21, options = Hash.new)
       options = {:username => nil, :password => nil}.merge(options)
       @host, @port = host, port
       @username, @password = options[:username], options[:password]
+      @passive = options[:passive]
     end
 
     def sync(local, distant)
@@ -19,7 +20,7 @@ module Glynn
     private
     def connect
       Net::FTP.open(host) do |ftp|
-        ftp.passive = true
+        ftp.passive = @passive
         ftp.connect(host, port)
         ftp.login(username, password)
         yield ftp

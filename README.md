@@ -21,6 +21,7 @@ For example, this is my _config.yml file :
     auto: true
     ftp_host: dmathieu.com
     ftp_dir: /web/portfolio
+    ftp_passive: false
 
 Glynn will connect itself to the host "dmathieu.com" and send every file to the FTP directory /web/portfolio.
 To do yo, you just need to be at the top of your jekyll project. And in a console, enter the following :

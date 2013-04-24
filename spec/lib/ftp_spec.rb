@@ -36,6 +36,24 @@ describe "FTP Interface" do
     end
   end
 
+  it 'should make an active connection' do
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
+
+    Glynn::Ftp.new('localhost', 21, {passive: true}).send(:connect) do |ftp|
+      @mock.should_receive(:passive).with(false)
+      ftp.should eql(@mock)
+    end
+  end
+
+  it 'should make a passive connection' do
+    Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
+
+    Glynn::Ftp.new('localhost', 21, {passive: true}).send(:connect) do |ftp|
+      @mock.should_receive(:passive).with(true)
+      ftp.should eql(@mock)
+    end
+  end
+
   it 'should accept a username and password' do
     Net::FTP.should_receive(:open).with('localhost').and_return(@mock)
 
