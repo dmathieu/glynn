@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'mocha'
+require 'mocha/api'
 require 'fakefs/safe'
 
 def load_all(*patterns)
