@@ -19,9 +19,15 @@ For example, this is my _config.yml file :
     markdown: rdiscount
     pygments: true
     auto: true
-    ftp_host: dmathieu.com
-    ftp_dir: /web/portfolio
+    
+    ftp_host: 'dmathieu.com'
+    ftp_dir: '/web/site/root'
     ftp_passive: false
+    
+    # optional
+    ftp_port: 21                  # default 21
+    ftp_username: 'your_user'     # default read from stdin
+    ftp_password: 'your_ftp_pass' # default read from stdin
 
 Glynn will connect itself to the host "dmathieu.com" and send every file to the FTP directory /web/portfolio.
 To do so, you just need to be at the top of your jekyll project. And in a console, enter the following :
