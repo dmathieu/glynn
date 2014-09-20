@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.description  = "Deploy a jekyll weblog through ftp"
   s.summary      = "Deploy a jekyll weblog through ftp"
   s.homepage     = "https://github.com/dmathieu/glynn"
+  s.license      = "MIT"
 
   s.files        = `git ls-files app lib`.split("\n")
   s.platform     = Gem::Platform::RUBY
