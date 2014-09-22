@@ -19,7 +19,7 @@ GEM
     colorator (0.1)
     diff-lcs (1.2.3)
     execjs (2.2.1)
-    fakefs (0.4.2)
+    fakefs (0.5.3)
     fast-stemmer (1.0.2)
     ffi (1.9.3)
     hitimes (1.2.2)
