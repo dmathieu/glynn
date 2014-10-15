@@ -22,13 +22,14 @@ end
 options  = Jekyll.configuration(options)
 ftp_port = (options['ftp_port'] || 21).to_i
 passive  = options['ftp_passive'] || true
+ftp_secure  = options['ftp_secure'] || false
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
 puts "Successfully generated site"
 
-puts "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port})"
+puts "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port}, ftps: #{ftp_secure})"
 begin
   if options['ftp_username'].nil?
     print "FTP Username: "
@@ -53,7 +54,7 @@ rescue NoMethodError, Interrupt
   exit
 end
 
-ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password, :passive => passive})
+ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {:username => username, :password => password, :passive => passive, :ftp_secure => ftp_secure})
 puts "\r\nConnected to server. Sending site"
 ftp.sync(options['destination'], options['ftp_dir'])
 puts "Successfully sent site"
