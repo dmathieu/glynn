@@ -20,22 +20,22 @@ module Glynn
 
     private
     def connect
-      if @ftp_secure == false
-        Net::FTP.open(host) do |ftp|
-          ftp.passive = @passive
-          ftp.connect(host, port)
-          ftp.login(username, password)
-          yield ftp
-        end
-      else
+      if @ftp_secure == true
         require 'double_bag_ftps'
-        
+
         DoubleBagFTPS.open(host,nil,nil,nil,DoubleBagFTPS::EXPLICIT) do |ftps|
           ftps.passive = @passive
           ftps.ssl_context = DoubleBagFTPS.create_ssl_context(:verify_mode => OpenSSL::SSL::VERIFY_NONE)
           ftps.connect(host, port)
           ftps.login(username, password)
           yield ftps
+        end
+      else
+        Net::FTP.open(host) do |ftp|
+          ftp.passive = @passive
+          ftp.connect(host, port)
+          ftp.login(username, password)
+          yield ftp
         end
       end
     end
