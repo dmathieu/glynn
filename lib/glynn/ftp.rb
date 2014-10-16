@@ -1,5 +1,4 @@
 require 'net/ftp'
-require 'double_bag_ftps'
 
 module Glynn
   class Ftp
@@ -29,6 +28,8 @@ module Glynn
           yield ftp
         end
       else
+        require 'double_bag_ftps'
+        
         DoubleBagFTPS.open(host,nil,nil,nil,DoubleBagFTPS::EXPLICIT) do |ftps|
           ftps.passive = @passive
           ftps.ssl_context = DoubleBagFTPS.create_ssl_context(:verify_mode => OpenSSL::SSL::VERIFY_NONE)
