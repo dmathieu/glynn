@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'jekyll'
 require 'glynn'
+require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 
@@ -39,10 +40,8 @@ begin
 
   if options['ftp_password'].nil?
     print "FTP Password: "
-    # We hide the entered characters before to ask for the password
-    system "stty -echo"
-    password = $stdin.gets.chomp
-    system "stty echo"
+    # Get the password without echoing characters
+    password = $stdin.noecho(&:gets).chomp
   else
     password = options['ftp_password']
   end
