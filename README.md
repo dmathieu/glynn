@@ -12,9 +12,9 @@ Install it with gem install.
 
     gem install glynn --source http://gemcutter.org
 
-That's it ! You now have the Glynn executable on your machine.
+That's it! You now have the Glynn executable on your machine.
 Go to your jekyll project, configure the host and distant directory where the files will be sent.
-For example, this is my _config.yml file :
+For example, below is my **_config.yml** file. You can also store these options and FTP credentials in a file called **_glynn.yml** in the root of your project directory instead of **_config.yml** if you prefer. 
 
     markdown: rdiscount
     pygments: true

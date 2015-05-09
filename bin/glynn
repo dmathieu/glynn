@@ -24,6 +24,11 @@ options  = Jekyll.configuration(options)
 ftp_port = (options['ftp_port'] || 21).to_i
 passive  = options['ftp_passive'] || true
 
+# If _glynn.yml exists, load and merge these options
+if File.file?('_glynn.yml')
+  options = options.merge(YAML.load_file('_glynn.yml'))
+end
+
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
