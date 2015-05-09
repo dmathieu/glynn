@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest"
 
   s.add_dependency('jekyll', [">= 0"])
+  s.add_dependency('double-bag-ftps', ["~> 0.1.2"])
 end
