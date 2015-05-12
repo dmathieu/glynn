@@ -1,14 +1,15 @@
 require 'net/ftp'
+require 'double_bag_ftps'
 
 module Glynn
   class Ftp
-    attr_reader :host, :port, :username, :password, :passive
+    attr_reader :host, :port, :username, :password, :passive, :secure
 
     def initialize(host, port = 21, options = Hash.new)
       options = {:username => nil, :password => nil}.merge(options)
       @host, @port = host, port
       @username, @password = options[:username], options[:password]
-      @passive = options[:passive]
+      @passive, @secure = options[:passive], options[:secure]
     end
 
     def sync(local, distant)
@@ -19,11 +20,19 @@ module Glynn
 
     private
     def connect
-      Net::FTP.open(host) do |ftp|
+      ftp_klass.open(host) do |ftp|
         ftp.passive = @passive
         ftp.connect(host, port)
         ftp.login(username, password)
         yield ftp
+      end
+    end
+
+    def ftp_klass
+      if secure
+        DoubleBagFTPS
+      else
+        Net::FTP
       end
     end
 
