@@ -7,6 +7,7 @@ describe "Relation between glynn and jekyll" do
     File.open('/test/test/README', 'w') {|f| f.write 'Hello World'}
     File.open('/test/test/test', 'w') {|f| f.write 'Hello World'}
     File.open('/_config.yml', 'w') { |f| f.write 'auto: true' }
+    File.open('/.jekyll-metadata', 'w') {|f|  }
   end
   after(:all) do
     FakeFS.deactivate!
