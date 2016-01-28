@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'jekyll'
+require 'netrc'
 require 'glynn'
 require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
@@ -28,6 +29,11 @@ ftp_secure = options['ftp_secure'] || false
 # If _glynn.yml exists, load and merge these options
 if File.file?('_glynn.yml')
   options = options.merge(YAML.load_file('_glynn.yml'))
+end
+
+# Include Username/Password from .netrc file if available
+if netrc = Netrc.read[options['ftp_host']]
+  options = options.merge(Hash[["ftp_username", "ftp_password"].zip netrc])
 end
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
