@@ -7,6 +7,7 @@ require 'highline'
 require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
+netrc = Netrc.read
 cli = HighLine.new
 
 options = {}
@@ -34,7 +35,7 @@ if File.file?('_glynn.yml')
 end
 
 # Include Username/Password from .netrc file if available
-if netrc = Netrc.read[options['ftp_host']]
+if n = netrc[options['ftp_host']]
   if options['ftp_username'] || options['ftp_password']
     cli.say cli.color(
       "The username and password settings from the configuration file" +
@@ -42,7 +43,7 @@ if netrc = Netrc.read[options['ftp_host']]
       :yellow
     )
   end
-  options = (Hash[['ftp_username', 'ftp_password'].zip netrc]).merge options
+  options = (Hash[['ftp_username', 'ftp_password'].zip n]).merge options
 end
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
@@ -63,6 +64,10 @@ begin
     print "FTP Password: "
     # Get the password without echoing characters
     password = $stdin.noecho(&:gets).chomp
+    if cli.agree("Would you like to save this password to #{Netrc.default_path}?")
+      netrc[options['ftp_host']] = username, password
+      netrc.save
+    end
   else
     password = options['ftp_password']
   end
