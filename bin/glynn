@@ -3,9 +3,11 @@ require 'rubygems'
 require 'jekyll'
 require 'netrc'
 require 'glynn'
+require 'highline'
 require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
+cli = HighLine.new
 
 options = {}
 case ARGV.size
@@ -33,6 +35,13 @@ end
 
 # Include Username/Password from .netrc file if available
 if netrc = Netrc.read[options['ftp_host']]
+  if options['ftp_username'] || options['ftp_password']
+    cli.say cli.color(
+      "The username and password settings from the configuration file" +
+      " take precedence over those in the netrc file!",
+      :yellow
+    )
+  end
   options = (Hash[['ftp_username', 'ftp_password'].zip netrc]).merge options
 end
 

@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_dependency('jekyll', [">= 0"])
   s.add_dependency('double-bag-ftps', ["~> 0.1.2"])
   s.add_dependency('netrc', [">= 0"])
+  s.add_dependency('highline', [">= 1.5"])
 end

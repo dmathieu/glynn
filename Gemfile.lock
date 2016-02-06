@@ -3,6 +3,7 @@ PATH
   specs:
     glynn (1.2.1)
       double-bag-ftps (~> 0.1.2)
+      highline (>= 1.5)
       jekyll
       netrc
 
@@ -14,6 +15,7 @@ GEM
     double-bag-ftps (0.1.2)
     fakefs (0.5.3)
     ffi (1.9.10)
+    highline (1.7.8)
     jekyll (3.0.0)
       colorator (~> 0.1)
       jekyll-sass-converter (~> 1.0)
