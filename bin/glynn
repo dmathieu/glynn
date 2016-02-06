@@ -33,7 +33,7 @@ end
 
 # Include Username/Password from .netrc file if available
 if netrc = Netrc.read[options['ftp_host']]
-  options = options.merge(Hash[["ftp_username", "ftp_password"].zip netrc])
+  options = (Hash[['ftp_username', 'ftp_password'].zip netrc]).merge options
 end
 
 puts "Building site: #{options['source']} -> #{options['destination']}"
