@@ -1,10 +1,14 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'jekyll'
+require 'netrc'
 require 'glynn'
+require 'highline'
 require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
+netrc = Netrc.read
+cli = HighLine.new
 
 options = {}
 case ARGV.size
@@ -30,6 +34,18 @@ if File.file?('_glynn.yml')
   options = options.merge(YAML.load_file('_glynn.yml'))
 end
 
+# Include Username/Password from .netrc file if available
+if n = netrc[options['ftp_host']]
+  if options['ftp_username'] || options['ftp_password']
+    cli.say cli.color(
+      "The username and password settings from the configuration file" +
+      " take precedence over those in the netrc file!",
+      :yellow
+    )
+  end
+  options = (Hash[['ftp_username', 'ftp_password'].zip n]).merge options
+end
+
 puts "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
@@ -48,6 +64,10 @@ begin
     print "FTP Password: "
     # Get the password without echoing characters
     password = $stdin.noecho(&:gets).chomp
+    if cli.agree("Would you like to save this password to #{Netrc.default_path}?")
+      netrc[options['ftp_host']] = username, password
+      netrc.save
+    end
   else
     password = options['ftp_password']
   end

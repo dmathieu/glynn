@@ -37,6 +37,8 @@ To do so, you just need to be at the top of your jekyll project. And in a consol
 
 Quite simple again. It'll connect to the remote host, ask you for login and password and send the files :)
 
+You can avoid keeping your login and password in your site configuration by saving it in your [`~/.netrc` file](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html); Glynn will even offer to save it there for you after the first time you enter it!
+
 Contributing
 ------------
 
