@@ -46,36 +46,28 @@ if n = netrc[options['ftp_host']]
   options = (Hash[['ftp_username', 'ftp_password'].zip n]).merge options
 end
 
-puts "Building site: #{options['source']} -> #{options['destination']}"
+cli.say "Building site: #{options['source']} -> #{options['destination']}"
 jekyll = Glynn::Jekyll.new
 jekyll.build
-puts "Successfully generated site"
+cli.say cli.color("Successfully generated site", :green)
 
-puts "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port}, ftps: #{ftp_secure})"
-begin
-  if options['ftp_username'].nil?
-    print "FTP Username: "
-    username = $stdin.gets.chomp
-  else
-    username = options['ftp_username']
-  end
+cli.say "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port}, ftps: #{ftp_secure})"
 
-  if options['ftp_password'].nil?
-    print "FTP Password: "
-    # Get the password without echoing characters
-    password = $stdin.noecho(&:gets).chomp
-    if cli.agree("Would you like to save this password to #{Netrc.default_path}?")
-      netrc[options['ftp_host']] = username, password
-      netrc.save
-    end
-  else
-    password = options['ftp_password']
+if options['ftp_username'].nil?
+  username = cli.ask "FTP Username: "
+else
+  username = options['ftp_username']
+end
+
+if options['ftp_password'].nil?
+  # Get the password without echoing characters
+  password = cli.ask("FTP Password: ") { |q| q.echo = false }
+  if cli.agree("Would you like to save this password to #{Netrc.default_path}?")
+    netrc[options['ftp_host']] = username, password
+    netrc.save
   end
-rescue NoMethodError, Interrupt
-  # When the process is exited, we display the characters again
-  # And we exit
-  system "stty echo"
-  exit
+else
+  password = options['ftp_password']
 end
 
 ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {
@@ -84,6 +76,6 @@ ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {
   :passive  => passive,
   :secure   => ftp_secure
 })
-puts "\r\nConnected to server. Sending site"
+cli.say "Connected to server. Sending site"
 ftp.sync(options['destination'], options['ftp_dir'])
-puts "Successfully sent site"
+cli.say cli.color("Successfully sent site", :green)
