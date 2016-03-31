@@ -10,6 +10,7 @@ module Glynn
       @host, @port = host, port
       @username, @password = options[:username], options[:password]
       @passive, @secure = options[:passive], options[:secure]
+      @ftp_klass = options[:ftp_klass]
     end
 
     def sync(local, distant)
@@ -21,7 +22,7 @@ module Glynn
     private
     def connect
       ftp_klass.open(host) do |ftp|
-        ftp.passive = @passive
+        ftp.passive = @passive || false
         ftp.connect(host, port)
         ftp.login(username, password)
         yield ftp
@@ -29,7 +30,7 @@ module Glynn
     end
 
     def ftp_klass
-      if secure
+      @ftp_klass ||= if secure
         DoubleBagFTPS
       else
         Net::FTP
