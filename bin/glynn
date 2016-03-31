@@ -25,14 +25,14 @@ case ARGV.size
     options['ftp_password'] = ARGV[3]
 end
 options    = Jekyll.configuration(options)
-ftp_port   = (options['ftp_port'] || 21).to_i
-passive    = options['ftp_passive'] || true
-ftp_secure = options['ftp_secure'] || false
-
 # If _glynn.yml exists, load and merge these options
 if File.file?('_glynn.yml')
   options = options.merge(YAML.load_file('_glynn.yml'))
 end
+
+ftp_port   = (options['ftp_port'] || 21).to_i
+passive    = options['ftp_passive'] || true
+ftp_secure = options['ftp_secure'] || false
 
 # Include Username/Password from .netrc file if available
 if n = netrc[options['ftp_host']]
