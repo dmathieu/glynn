@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    glynn (1.2.2)
+    glynn (1.2.3)
       double-bag-ftps (~> 0.1.2)
       highline (>= 1.5)
       jekyll
