@@ -70,7 +70,7 @@ jekyll = Glynn::Jekyll.new
 jekyll.build
 cli.say cli.color("Successfully generated site", :green)
 
-cli.say "Sending site over FTP (host: #{get_from_environment(environment, options, 'ftp_host')}, port: #{get_from_environment(environment, options, 'ftp_port')}, ftps: #{get_from_environment(environment, options, 'ftp_secure')})"
+cli.say "Sending site over FTP (host: #{get_from_environment(environment, options, 'ftp_host')}, port: #{ftp_port}, ftps: #{ftp_secure})"
 
 if get_from_environment(environment, options, 'ftp_username').nil?
   username = cli.ask "FTP Username: "
