@@ -35,6 +35,33 @@ To do so, you just need to be at the top of your jekyll project. And in a consol
 
     glynn
 
+You can also setup different environments into you **_glynn.yml** and can keep common configuration for both. For example:
+
+    markdown: rdiscount
+    pygments: true
+    auto: true
+    
+    # optional
+    ftp_port: 21                  # default 21
+    ftp_username: 'your_user'     # default read from stdin
+    ftp_password: 'your_ftp_pass' # default read from stdin
+    ftp_secure: true              # default false
+    ftp_passive: false
+    
+    production:
+        ftp_host: 'ricardovsilva.com'
+        ftp_dir: '/web/site/root'
+        
+    test:
+        ftp_host: 'test.ricardovsilva.com'
+        ftp_dir: '/web/site/root/test'
+
+
+Then just call glynn with -environment (or -e) parameter:
+    
+    glynn -e production
+    
+    
 Quite simple again. It'll connect to the remote host, ask you for login and password and send the files :)
 
 You can avoid keeping your login and password in your site configuration by saving it in your [`~/.netrc` file](https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html); Glynn will even offer to save it there for you after the first time you enter it!
