@@ -7,6 +7,15 @@ require 'highline'
 require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
+
+def get_from_environment (environment, options, key)
+  if options[environment] and options[environment][key]
+    return options[environment][key]
+  else
+    return options[key]
+  end
+end 
+
 netrc = Netrc.read
 cli = HighLine.new
 
@@ -89,12 +98,3 @@ ftp = Glynn::Ftp.new(get_from_environment(environment, options, 'ftp_host'), ftp
 cli.say "Connected to server. Sending site"
 ftp.sync(get_from_environment(environment, options, 'destination'), get_from_environment(environment, options, 'ftp_dir'))
 cli.say cli.color("Successfully sent site", :green)
-
-
-def get_from_environment (environment, options, key)
-  if options[environment] and options[environment][key]
-    return options[environment][key]
-  else
-    return options[key]
-  end
-end 
