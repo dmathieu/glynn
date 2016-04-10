@@ -7,10 +7,29 @@ require 'highline'
 require 'io/console'
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
+
+def get_from_environment (environment, options, key)
+  if options[environment] and options[environment][key]
+    return options[environment][key]
+  else
+    return options[key]
+  end
+end 
+
 netrc = Netrc.read
 cli = HighLine.new
 
 options = {}
+environment = ''
+
+if(ARGV.include? '-e' or ARGV.include? '-environment')
+  environment_index = (ARGV.index('-e') || ARGV.index('-environment'))
+  ARGV.delete_at(environment_index)
+  environment = ARGV[environment_index]
+  ARGV.delete_at(environment_index)
+end
+
+
 case ARGV.size
   when 0
   when 1
@@ -30,13 +49,13 @@ if File.file?('_glynn.yml')
   options = options.merge(YAML.load_file('_glynn.yml'))
 end
 
-ftp_port   = (options['ftp_port'] || 21).to_i
-passive    = options['ftp_passive'] || true
-ftp_secure = options['ftp_secure'] || false
+ftp_port   = (get_from_environment(environment, options, 'ftp_port') || 21).to_i
+passive    = get_from_environment(environment, options, 'ftp_passive') || true
+ftp_secure = get_from_environment(environment, options, 'ftp_secure') || false
 
 # Include Username/Password from .netrc file if available
-if n = netrc[options['ftp_host']]
-  if options['ftp_username'] || options['ftp_password']
+if n = netrc[ get_from_environment(environment, options, 'ftp_host') ]
+  if get_from_environment(environment, options, 'ftp_username') || get_from_environment(environment, options, 'ftp_password')
     cli.say cli.color(
       "The username and password settings from the configuration file" +
       " take precedence over those in the netrc file!",
@@ -51,31 +70,31 @@ jekyll = Glynn::Jekyll.new
 jekyll.build
 cli.say cli.color("Successfully generated site", :green)
 
-cli.say "Sending site over FTP (host: #{options['ftp_host']}, port: #{ftp_port}, ftps: #{ftp_secure})"
+cli.say "Sending site over FTP (host: #{get_from_environment(environment, options, 'ftp_host')}, port: #{ftp_port}, ftps: #{ftp_secure})"
 
-if options['ftp_username'].nil?
+if get_from_environment(environment, options, 'ftp_username').nil?
   username = cli.ask "FTP Username: "
 else
-  username = options['ftp_username']
+  username = get_from_environment(environment, options, 'ftp_username')
 end
 
-if options['ftp_password'].nil?
+if get_from_environment(environment, options, 'ftp_password').nil?
   # Get the password without echoing characters
   password = cli.ask("FTP Password: ") { |q| q.echo = false }
   if cli.agree("Would you like to save this password to #{Netrc.default_path}?")
-    netrc[options['ftp_host']] = username, password
+    netrc[get_from_environment(environment, options, 'ftp_host')] = username, password
     netrc.save
   end
 else
-  password = options['ftp_password']
+  password = get_from_environment(environment, options, 'ftp_password')
 end
 
-ftp = Glynn::Ftp.new(options['ftp_host'], ftp_port, {
+ftp = Glynn::Ftp.new(get_from_environment(environment, options, 'ftp_host'), ftp_port, {
   :username => username,
   :password => password,
   :passive  => passive,
   :secure   => ftp_secure
 })
 cli.say "Connected to server. Sending site"
-ftp.sync(options['destination'], options['ftp_dir'])
+ftp.sync(get_from_environment(environment, options, 'destination'), get_from_environment(environment, options, 'ftp_dir'))
 cli.say cli.color("Successfully sent site", :green)
