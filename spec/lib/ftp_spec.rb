@@ -12,6 +12,8 @@ class FakeFtpServer
 
   def mkdir(folder); end
   def putbinaryfile(lfile, dfile); end
+  def delete(file); end
+  def nlst(match) []; end
 end
 
 describe "FTP Interface" do
@@ -107,6 +109,23 @@ describe "FTP Interface" do
       expect(@ftp_klass.ftp_server).to receive(:login).with(nil, nil)
       expect(interface).to receive(:send_dir).with(@ftp_klass.ftp_server, '/test', '/blah')
 
+      interface.sync '/test', '/blah'
+    end
+  end
+
+  it 'should remove files which do not exist locally anymore' do
+    FakeFS do
+      # We create the fake files and directories
+      FileUtils.mkdir_p('/test/subdir') if !File.directory?('/test/subdir')
+      File.open('/test/README', 'w') { |f| f.write 'N/A' }
+      File.open('/test/.gitignore', 'w') { |f| f.write 'N/A' }
+      File.open('/test/subdir/README', 'w') { |f| f.write 'N/A' }
+
+      interface = Glynn::Ftp.new('localhost', 21, {ftp_klass: @ftp_klass})
+
+      expect(@ftp_klass.ftp_server).to receive(:nlst).and_return(["/test/foobar", "/test/README"])
+      expect(@ftp_klass.ftp_server).to receive(:delete).with("/test/foobar")
+      expect(@ftp_klass.ftp_server).not_to receive(:delete).with("/test/README")
       interface.sync '/test', '/blah'
     end
   end

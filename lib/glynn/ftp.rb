@@ -16,6 +16,7 @@ module Glynn
     def sync(local, distant)
       connect do |ftp|
         send_dir(ftp, local, distant)
+        remove_files(ftp, local, distant)
       end
     end
 
@@ -61,6 +62,12 @@ module Glynn
         else
            ftp.putbinaryfile(local + "/" + file_name, distant + "/" + file_name)
         end
+      end
+    end
+
+    def remove_files(ftp, local, distant)
+      (ftp.nlst("#{distant}/**/*") - Dir.glob("#{local}/**/*")).each do |name|
+        ftp.delete(name)
       end
     end
 
