@@ -36,50 +36,50 @@ describe "FTP Interface" do
   it 'should connect to ftp server' do
     glynn = Glynn::Ftp.new('localhost', 21, {ftp_klass: @ftp_klass})
 
-    @ftp_klass.ftp_server.should_receive(:login).with(nil, nil)
-    @ftp_klass.ftp_server.should_receive(:connect).with('localhost', 21)
-    @ftp_klass.ftp_server.should_receive(:passive=).with(false)
+    expect(@ftp_klass.ftp_server).to receive(:login).with(nil, nil)
+    expect(@ftp_klass.ftp_server).to receive(:connect).with('localhost', 21)
+    expect(@ftp_klass.ftp_server).to receive(:passive=).with(false)
     glynn.send(:connect) do |ftp|
-      ftp.should eql(@ftp_klass.ftp_server)
+      expect(ftp).to eql(@ftp_klass.ftp_server)
     end
   end
 
   it 'should use the given port' do
     glynn = Glynn::Ftp.new('localhost', 1234, {ftp_klass: @ftp_klass})
-    @ftp_klass.ftp_server.should_receive(:connect).with('localhost', 1234)
+    expect(@ftp_klass.ftp_server).to receive(:connect).with('localhost', 1234)
     glynn.send(:connect) do |ftp|; end
   end
 
   it 'should make a passive connection' do
     glynn = Glynn::Ftp.new('localhost', 21, {passive: true, ftp_klass: @ftp_klass})
-    @ftp_klass.ftp_server.should_receive(:passive=).with(true)
+    expect(@ftp_klass.ftp_server).to receive(:passive=).with(true)
     glynn.send(:connect) do |ftp|; end
   end
 
 
   it 'should make a non-secure connection' do
-    Glynn::Ftp.new('localhost').send(:ftp_klass).should eql(Net::FTP)
+    expect(Glynn::Ftp.new('localhost').send(:ftp_klass)).to  eql(Net::FTP)
   end
 
   it 'should make a secure connection' do
-    Glynn::Ftp.new('localhost', 21, {secure: true}).send(:ftp_klass).should eql(DoubleBagFTPS)
+    expect(Glynn::Ftp.new('localhost', 21, {secure: true}).send(:ftp_klass)).to eql(DoubleBagFTPS)
   end
 
   it 'should accept a username and password' do
     glynn = Glynn::Ftp.new('localhost', 1234, {username: 'username', password: 'password', ftp_klass: @ftp_klass})
 
-    @ftp_klass.ftp_server.should_receive(:login).with('username', 'password')
+    expect(@ftp_klass.ftp_server).to receive(:login).with('username', 'password')
     glynn.send(:connect) {|ftp| }
   end
 
   it 'should recursively send a directory' do
     mock = @ftp_klass.ftp_server
     # We expect NET/FTP to create every file
-    mock.should_receive(:putbinaryfile).with('/test/README', '/blah/README').and_return(true)
-    mock.should_receive(:putbinaryfile).with('/test/.gitignore', '/blah/.gitignore').and_return(true)
-    mock.should_receive(:putbinaryfile).with('/test/subdir/README', '/blah/subdir/README').and_return(true)
-    mock.should_receive(:mkdir).with('/blah')
-    mock.should_receive(:mkdir).with('/blah/subdir').twice
+    expect(mock).to receive(:putbinaryfile).with('/test/README', '/blah/README').and_return(true)
+    expect(mock).to receive(:putbinaryfile).with('/test/.gitignore', '/blah/.gitignore').and_return(true)
+    expect(mock).to receive(:putbinaryfile).with('/test/subdir/README', '/blah/subdir/README').and_return(true)
+    expect(mock).to receive(:mkdir).with('/blah')
+    expect(mock).to receive(:mkdir).with('/blah/subdir').twice
 
     FakeFS do
       # We create the fake files and directories
@@ -103,9 +103,9 @@ describe "FTP Interface" do
 
       interface = Glynn::Ftp.new('localhost', 21, {ftp_klass: @ftp_klass})
 
-      @ftp_klass.ftp_server.should_receive(:connect).with('localhost', 21)
-      @ftp_klass.ftp_server.should_receive(:login).with(nil, nil)
-      interface.should_receive(:send_dir).with(@ftp_klass.ftp_server, '/test', '/blah')
+      expect(@ftp_klass.ftp_server).to receive(:connect).with('localhost', 21)
+      expect(@ftp_klass.ftp_server).to receive(:login).with(nil, nil)
+      expect(interface).to receive(:send_dir).with(@ftp_klass.ftp_server, '/test', '/blah')
 
       interface.sync '/test', '/blah'
     end
