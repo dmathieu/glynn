@@ -4,6 +4,10 @@ Glynn
 Glynn offers you a bin to easily send a jekyll powered blog to your host through FTP.  
 [![Build Status](https://travis-ci.org/dmathieu/glynn.png)](https://travis-ci.org/dmathieu/glynn)
 
+**Maintenance status
+This gem is not maintained anymore.
+I will transfer the repository to anyone who fixes [this issue](https://github.com/dmathieu/glynn/issues/67), and wants to maintain this project.**
+
 Installation
 ------------
 
