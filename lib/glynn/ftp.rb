@@ -49,7 +49,7 @@ module Glynn
         # If the file/directory is hidden (first character is a dot), we ignore it
         next if file_name =~ /^(\.|\.\.)$/
 
-        puts " -> " + file_name
+        puts "sending " + file_name
         if ::File.stat(local + "/" + file_name).directory?
           # It is a directory, we recursively send it
           begin
@@ -67,6 +67,7 @@ module Glynn
 
     def remove_files(ftp, local, distant)
       (ftp.nlst("#{distant}/**/*") - Dir.glob("#{local}/**/*")).each do |name|
+        puts "deleting " + name
         ftp.delete(name)
       end
     end
